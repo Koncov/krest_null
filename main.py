@@ -68,3 +68,5 @@ class GameWindow:
                     if self._field_widget.check_coords_correct(x, y):
                         i, j = self._field_widget.get_coords(x, y)
                         self._game_manager.handle_click(i, j)
+
+
