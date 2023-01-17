@@ -2,6 +2,7 @@ import pygame
 from enum import Enum
 
 
+
 class Cell(Enum):
     VOID = 0
     CROSS = 1
@@ -68,8 +69,5 @@ class GameWindow:
                     if self._field_widget.check_coords_correct(x, y):
                         i, j = self._field_widget.get_coords(x, y)
                         self._game_manager.handle_click(i, j)
-
-
-
 
 
