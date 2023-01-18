@@ -2,7 +2,6 @@ import pygame
 from enum import Enum
 
 
-
 class Cell(Enum):
     VOID = 0
     CROSS = 1
