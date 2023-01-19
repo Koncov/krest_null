@@ -13,7 +13,7 @@ class Cell(Enum):
 
 class Player:
     """
-    Класс игрока, содержащий его тип и иимя.
+    Класс игрока, содержащий его тип и имя.
     """
     def __int__(self, name, cell_type):
         self.name = name
