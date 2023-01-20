@@ -98,3 +98,11 @@ class GameWindow:
                         self._game_manager.handle_click(i, j)
 
 
+
+
+
+
+
+
+
+
