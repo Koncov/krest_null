@@ -2,6 +2,7 @@ import pygame
 from enum import Enum
 
 
+FPS = 60
 CELL_SIZE = 50
 
 
@@ -15,7 +16,7 @@ class Player:
     """
     Класс игрока, содержащий его тип и имя.
     """
-    def __int__(self, name, cell_type):
+    def __init__(self, name, cell_type):
         self.name = name
         self.cell_type = cell_type
 
@@ -24,41 +25,41 @@ class GameField:
     """
 
     """
-    def __int__(self):
+    def __init__(self):
         self.height = 3
-        self.wigth = 3
-        self.cells = [[Cell.VOID]*self.wigth for i in range(3)]
+        self.width = 3
+        self.cells = [[Cell.VOID]*self.width for i in range(self.height)]
 
 
 class GameFieldView:
     """
     Виджет игрового поля, который отображает его на экране, а так же выясняет место клика
     """
-    def __int__(self, field):
+    def __init__(self, field):
         # Загрузить картинки значков клеток и тд.
         # Отобразить первичное сосотояние поля
         self._field = field
-        self._height = field.heiht * CELL_SIZE
+        self._height = field.height * CELL_SIZE
         self._width = field.width * CELL_SIZE
 
     def draw(self):
         pass
 
     def check_coords_correct(self, x, y):
-        return True # TODO: self._height учесть
+        return True  # TODO: self._height учесть
 
     def get_coords(self, x, y):
-        return (0, 0)  # TODO: реально вычислить клетку клика
+        return 0, 0  # TODO: реально вычислить клетку клика
 
 
 class GameRoundManager:
     """
     Менеджер игры запускающий все процессы
     """
-    def __int__(self, player1: Player, player2: Player):
+    def __init__(self, player1: Player, player2: Player):
         self._plaers = [player1, player2]
         self._current_pLayer = 0
-        self._field = GameField()
+        self.field = GameField()
 
     def handle_click(self, i, j):
         plaer = self._plaers[self._current_pLayer]
@@ -70,7 +71,7 @@ class GameWindow:
     """
     Содержит виджет поля, а так же менеджера игрового раунда.
     """
-    def __int__(self):
+    def __init__(self):
         # Инициализация pygame
         pygame.init()
 
@@ -83,26 +84,30 @@ class GameWindow:
         player1 = Player("Петья", Cell.CROSS)
         player2 = Player("Вася", Cell.ZERO)
         self._game_manager = GameRoundManager(player1, player2)
-        self._field_widget = GameFieldView(self._game_manager._field)
+        self._field_widget = GameFieldView(self._game_manager.field)
 
     def main_loop(self):
         finished = False
+        clock = pygame.time.Clock()
         while not finished:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     finished = True
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.x, event.y
+                    mose_pos = pygame.mouse.get_pos()
+                    x, y = mose_pos
                     if self._field_widget.check_coords_correct(x, y):
                         i, j = self._field_widget.get_coords(x, y)
                         self._game_manager.handle_click(i, j)
+            pygame.display.flip()
+            clock.tick(FPS)
 
 
+def main():
+    window = GameWindow()
+    window.main_loop()
+    print('Game Over!')
 
 
-
-
-
-
-
-
+if __name__ == "__main__":
+    main()
